@@ -8,55 +8,42 @@ export class InputResult {
 
 @Component({
   selector: 'DynamicInputs',
-  // Update this template
-  template: `
-  <form [formGroup]="inputForm">
-    <div>
-      <div *ngFor="let field of inputFields">
-        <label for="{{field}}">{{ field }}</label>
-        <input type="text" id="{{field}}" />
-      </div>
-
-      <div formArrayName="inputForm">
-        <div *ngFor="let field of address.get('inputForm').controls; let j=index" [formGroupName]="j" >
-            <h4>Room #{{j + 1}}</h4>
-            <div class="form-group">
-              <label class="center-block">Type:
-                <input class="form-control" formControlName="type">
-              </label>
-            </div>
-        </div>
-      </div>
-
-
-      <div>
-        <button (click)="onSubmit()">Submit</button>
-      </div>
-    </div>
-  </form>
-  `,
+  templateUrl: './dynamicinputs.component.html',
 })
 export class DynamicInputs implements OnInit {
   @Input() inputFields: string[];
   @Output() inputResults: EventEmitter<InputResult[]> = new EventEmitter<
     InputResult[]
   >();
-  inputForm: FormArray
-  constructor(private fb: FormBuilder) {
-    this.inputForm = fb.array([])
+  field: FormArray;
+
+  inputForm = this.fb.group({
+    fields: this.fb.array([this.fb.control('')]),
+  });
+
+  get fields() {
+    return this.inputForm.get('fields') as FormArray;
   }
 
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    console.log(this.inputFields);
+    this.inputFields.map((field) => {
+      this.fields.push(this.fb.control(field));
+    });
   }
 
-  onSubmit() {
+  addAlias() {
+    this.fields.push(this.fb.control(''));
+  }
+
+  onSubmit(f) {
     console.log(this.inputForm.value);
+    console.log(f);
     console.log('Submitted');
-    this.inputResults.next([
-      { inputName: 'Name', inputValue: 'value' },
-      { inputName: 'City', inputValue: 'value' }
-    ]);
+    // this.inputResults.next([
+    //   { inputName: 'Name', inputValue: 'value' },
+    //   { inputName: 'City', inputValue: 'value' },
+    // ]);
   }
 }
