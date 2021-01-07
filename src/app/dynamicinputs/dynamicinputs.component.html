@@ -1,18 +1,12 @@
-<form [formGroup]="inputForm" (ngSubmit)="onSubmit(alias)">
-  <div formArrayName="fields">
-    <h3>Fields</h3>
-    
-    <div *ngFor="let alias of fields.controls; let i = index">
-      <!-- The repeated alias template -->
-      <label>
-        Alias:
-        <input type="text" [formControlName]="i" />
-      </label>
-    </div>
+<form [formGroup]="inputForm" (ngSubmit)="onSubmit()">
+  <h3>Fields</h3>
+  <div *ngFor="let field of inputFields">
+    <label>
+      {{ field }}
+      <input type="text" [formControlName]="field" />
+    </label>
   </div>
   <button type="submit" [disabled]="!inputForm.valid">Submit</button>
 </form>
-
 <hr />
-
 <p>Form Value: {{ inputForm.value | json }}</p>
