@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/testdome'),
+      dir: require('path').join(__dirname, './coverage/dynamic-input'),
       subdir: '.',
       reporters: [
         { type: 'html' },
