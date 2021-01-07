@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "testdome"
+  "defaultProject": "testdome",
+  "cli": {
+    "analytics": false
+  }
 }
