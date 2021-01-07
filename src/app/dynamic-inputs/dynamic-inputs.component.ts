@@ -7,10 +7,10 @@ export class InputResult {
 }
 
 @Component({
-  selector: 'DynamicInputs',
-  templateUrl: './dynamicinputs.component.html',
+  selector: 'app-dynamic-inputs',
+  templateUrl: './dynamic-inputs.component.html',
 })
-export class DynamicInputs implements OnInit {
+export class DynamicInputsComponent implements OnInit {
   @Input() inputFields: string[];
   @Output() inputResults: EventEmitter<InputResult[]> = new EventEmitter<
     InputResult[]
@@ -28,13 +28,10 @@ export class DynamicInputs implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.inputForm);
-
-    
-    
-    // this.inputResults.next([
-    //   { inputName: 'Name', inputValue: 'value' },
-    //   { inputName: 'City', inputValue: 'value' },
-    // ]);
+    let arr = [];
+    this.inputFields.map((field) => {
+      arr.push({ inputName: field, inputValue: this.inputForm.value[field] });
+    });
+    this.inputResults.next(arr);
   }
 }
